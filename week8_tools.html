@@ -10,7 +10,8 @@
 <body>
 <h1 class="h1 text-center">Cryptography toolbox</h1>
 <div class="container-fluid">
-    <div class="row">
+    <div class="row pt-5 alert alert-warning">
+        <div class="title"><h3 class="h3">Substitution</h3></div>
         <div class="col-md-4">
             <div class="card text-dark bg-light mb-3 border-dark">
                 <div class="card-header">
@@ -34,21 +35,39 @@
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
-                        <label for="longest-word-results-ta" class="form-label">Words found</label>
                         <div class="" id="longest-word-results-ta">
-                            <p id="words-list">
-                                <table id="words-table" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Word</th>
-                                            <th>Length</th>
-                                            <th>Pattern</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="words-table-content">
-                                    </tbody>
-                                </table>
-                            </p>
+                            <table id="words-table" class="table table-primary table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Word</th>
+                                    <th>Length</th>
+                                    <th>Pattern</th>
+                                </tr>
+                                </thead>
+                                <tbody id="words-table-content">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-dark bg-light mb-3 border-dark">
+                <div class="card-header">
+                    Dictionary Matches
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="" id="matches-results-ta">
+                            <table id="matches-table" class="table table-success table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Pattern</th>
+                                    <th>Word</th>
+                                </tr>
+                                </thead>
+                                <tbody id="matches-table-content">
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -56,121 +75,13 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
 <script src="dictionary.js"></script>
+<script src="substitution.js"></script>
 </body>
-
-<script>
-    let longestWordText = null;
-    let words = [];
-
-    $(function () {
-        $('#longest-word-ta-btn').prop('disabled', true);
-    });
-
-    $('#longest-word-ta-btn').on('click', function () {
-        longestWordText = $('#longest-word-ta').val();
-        removePunctuation();
-        longestWord();
-    });
-
-    $('#longest-word-ta').bind('paste keydown', function (e) {
-
-        let eventType = e.type;
-        if (eventType === 'paste') {
-            longestWordText = e.originalEvent.clipboardData.getData('text');
-        } else {
-            longestWordText = $('#longest-word-ta').val();
-        }
-        if (longestWordText.length > 1) {
-            $('#longest-word-ta-btn').prop('disabled', false);
-
-        } else {
-            $('#longest-word-ta-btn').prop('disabled', true);
-        }
-    });
-
-    function removePunctuation() {
-        let punctuationless = longestWordText.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
-        longestWordText = punctuationless.replace(/\s{2,}/g, " ");
-    }
-
-    function longestWord() {
-        let str = longestWordText.split(" ");
-        let longest = 0;
-        let maxLength = 0;
-        str.forEach(function (str) {
-            if (longest < str.length) {
-                longest = str.length;
-                maxLength = longest;
-            }
-        });
-        str.forEach(function (str) {
-            if (maxLength === str.length) {
-                words.push(str);
-            }
-        });
-        console.log(words);
-        getPattern();
-      //  searchObj('ABCD');
-    }
-
-    function getPattern()
-    {
-        for(let key in words)
-        {
-            let pattern = [];
-            let lastCharacterUsedIndex = 0;
-            let word = words[key];
-            let length = word.length;
-
-            let reconstruct = '';
-            console.log('WORD' , word);
-
-            let patternString = '';
-
-            for (let i = 0; i < length; i++)
-            {
-                if(reconstruct.indexOf(word.charAt(i)) > -1)
-                {
-                    var characterPosition = reconstruct.indexOf(word.charAt(i));
-                    console.log('characterPosition' , characterPosition);
-                    var character = patternString.charAt(characterPosition);
-                    console.log('character' , character);
-                    patternString += character;
-                }
-                else{
-                    patternString += String.fromCharCode(lastCharacterUsedIndex + 65);
-                    lastCharacterUsedIndex += 1;
-                }
-                reconstruct += word.charAt(i);
-                console.log('patternString' , patternString);
-                console.log('RECONSTRUCT' , reconstruct);
-            }
-        }
-
-    }
-
-    function searchObj (query) {
-
-        for (var key in dictionary) {
-            var value = dictionary[key];
-
-            if (typeof value === 'object') {
-                searchObj(value, query);
-            }
-
-            if (value === query) {
-                console.log('property=' + key + ' value=' + value);
-            }
-
-        }
-
-    }
-
-</script>
 </html>
