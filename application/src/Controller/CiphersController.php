@@ -8,7 +8,7 @@
 	class CiphersController extends AbstractController
 	{
 		/**
-		 * @Route("/ciphers/substitution")
+		 * @Route("/")
 		 */
 		public function number(): Response
 		{
