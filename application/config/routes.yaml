@@ -1,0 +1,4 @@
+#index:
+app_ciphers_substitution:
+  path: /ciphers/substitution
+  controller: App\Controller\CiphersController::substitution

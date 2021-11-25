@@ -1,0 +1,74 @@
+{% extends 'layout.html.twig' %}
+{% block title %}<h1 class="h1 text-center">Cryptography toolbox</h1>{% endblock %}
+
+{% block page_contents %}
+    <div class="container-fluid">
+        <div class="row pt-5 alert alert-warning">
+            <div class="title"><h3 class="h3">Substitution</h3></div>
+            <div class="col-md-4">
+                <div class="card text-dark bg-light mb-3 border-dark">
+                    <div class="card-header">
+                        Longest word finder
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="longest-word-ta" class="form-label">Text to check</label>
+                            <textarea class="form-control textarea pb-2" id="longest-word-ta"
+                                      aria-describedby="longest-ta-Help" rows="10"></textarea>
+                            <div id="longest-ta-Help" class="form-text">Copy the text to check here</div>
+                        </div>
+                        <button type="button" id="longest-word-ta-btn" class="btn btn-primary">Check</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card text-dark bg-light mb-3 border-dark">
+                    <div class="card-header">
+                        Results
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="" id="longest-word-results-ta">
+                                <table id="words-table" class="table table-primary table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Word</th>
+                                        <th>Length</th>
+                                        <th>Pattern</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="words-table-content">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card text-dark bg-light mb-3 border-dark">
+                    <div class="card-header">
+                        Dictionary Matches
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="" id="matches-results-ta">
+                                <table id="matches-table" class="table table-success table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Pattern</th>
+                                        <th>Word</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="matches-table-content">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ asset('javascript/ciphers/substitution/dictionary.js') }}"></script>
+    <script src="{{ asset('javascript/ciphers/substitution/substitution.js') }}"></script>
+
+{% endblock %}
