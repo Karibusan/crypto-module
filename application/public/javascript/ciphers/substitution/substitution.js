@@ -55,14 +55,12 @@ function longestWord () {
 			words.push (str);
 		}
 	});
-	//console.log(words);
 	getPattern ();
 	searchObj ();
 	populateResults ();
 	populateMatches ();
     frequencyAnalysis();
 	reset ();
-	//  console.log('MATCHES' , matches);
 }
 
 function reset () {
@@ -74,26 +72,20 @@ function reset () {
 
 function getPattern () {
 	for (let key in words) {
-		//  let pattern = [];
 		let lastCharacterUsedIndex = 0;
 		let word = words[key];
 		let reconstruct = '';
-		//  console.log('WORD' , word);
 		
 		for (let i = 0; i < word.length; i++) {
 			if (reconstruct.indexOf (word.charAt (i)) > -1) {
 				var characterPosition = reconstruct.indexOf (word.charAt (i));
-				//  console.log('characterPosition' , characterPosition);
 				var character = pattern.charAt (characterPosition);
-				//  console.log('character' , character);
 				pattern += character;
 			} else {
 				pattern += String.fromCharCode (lastCharacterUsedIndex + 65);
 				lastCharacterUsedIndex += 1;
 			}
 			reconstruct += word.charAt (i);
-			// console.log('patternString' , pattern);
-			//  console.log('RECONSTRUCT' , reconstruct);
 		}
 	}
 	
@@ -114,10 +106,8 @@ function searchObj () {
 
 function populateResults () {
 	$ ("#words-table-content").empty ();
-	// console.log('WORDS' , words);
 	for (var key in words) {
 		var word = words[key];
-		// console.log(word);
 		let tr;
 		tr = $ ('<tr/>');
 		tr.append ("<td>" + word + "</td>");
@@ -129,11 +119,9 @@ function populateResults () {
 
 function populateMatches () {
 	$ ("#matches-table-content").empty ();
-	// console.log('MATCHES' , matches);
 	for (var key in matches) {
 		var pattern = matches[key];
 		var wordMatched = key;
-		// console.log(wordMatched);
 		let tr;
 		tr = $ ('<tr/>');
 		tr.append ("<td>" + pattern + "</td>");
@@ -148,8 +136,6 @@ function frequencyAnalysis () {
 	let textlength = spaceOutString.length;
 	let alphabetLength = alphabet.length;
     let countCharacters = {};
-    console.log('textlength' , textlength);
-    console.log('alphabetLength' , alphabetLength);
     for (let i = 0; i < textlength; i++) {
         let char = spaceOutString.charAt (i);
         if( char in countCharacters) {
