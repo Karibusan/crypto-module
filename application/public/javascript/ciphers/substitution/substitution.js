@@ -1,7 +1,10 @@
-let longestWordText = null;
+let textToDecrypt = null;
 let pattern = '';
 let words = [];
 let matches = [];
+let dictionaryWordApplied = [];
+
+
 let alphabet = [
 	'A', 'B', 'C', 'D', 'E', 'F',
 	'G', 'H', 'I', 'J', 'K', 'L',
@@ -9,13 +12,14 @@ let alphabet = [
 	'S', 'T', 'U', 'V', 'W', 'X',
 	'Y', 'Z'];
 
+let mapping = {};
+
 $ (function () {
 	$ ('#longest-word-ta-btn').prop ('disabled', true);
 });
 
 $ ('#longest-word-ta-btn').on ('click', function () {
-	longestWordText = $ ('#longest-word-ta').val ();
-	removePunctuation ();
+	textToDecrypt = $ ('#longest-word-ta').val ();
 	longestWord ();
 });
 
@@ -23,11 +27,11 @@ $ ('#longest-word-ta').bind ('paste keydown', function (e) {
 	reset ();
 	let eventType = e.type;
 	if (eventType === 'paste') {
-		longestWordText = e.originalEvent.clipboardData.getData ('text');
+		textToDecrypt = e.originalEvent.clipboardData.getData ('text');
 	} else {
-		longestWordText = $ ('#longest-word-ta').val ();
+		textToDecrypt = $ ('#longest-word-ta').val ();
 	}
-	if (longestWordText.length > 1) {
+	if (textToDecrypt.length > 1) {
 		$ ('#longest-word-ta-btn').prop ('disabled', false);
 		
 	} else {
@@ -35,13 +39,11 @@ $ ('#longest-word-ta').bind ('paste keydown', function (e) {
 	}
 });
 
-function removePunctuation () {
-	let punctuationless = longestWordText.replace (/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
-	longestWordText = punctuationless.replace (/\s{2,}/g, " ");
-}
 
 function longestWord () {
-	let str = longestWordText.split (" ");
+	let punctuationless = textToDecrypt.replace (/[.,\/#!$%\^&\*;?:{}=\-\—_`~()]/g, "");
+	let longestWordTextNoPunctuation = punctuationless.replace (/\s{2,}/g, " ");
+	let str = longestWordTextNoPunctuation.split (" ");
 	let longest = 0;
 	let maxLength = 0;
 	str.forEach (function (str) {
@@ -56,15 +58,16 @@ function longestWord () {
 		}
 	});
 	getPattern ();
-	searchObj ();
+	searchInDictionary ();
 	populateResults ();
+	crackItBoy ();
 	populateMatches ();
-    frequencyAnalysis();
+	frequencyAnalysis ();
 	reset ();
 }
 
 function reset () {
-	longestWordText = null;
+	textToDecrypt = null;
 	pattern = '';
 	words = [];
 	matches = [];
@@ -91,11 +94,11 @@ function getPattern () {
 	
 }
 
-function searchObj () {
+function searchInDictionary () {
 	for (var key in dictionary) {
 		var value = dictionary[key];
 		if (typeof value === 'object') {
-			searchObj (value, pattern);
+			searchInDictionary (value, pattern);
 		}
 		if (value === pattern) {
 			matches[key] = value;
@@ -119,51 +122,52 @@ function populateResults () {
 
 function populateMatches () {
 	$ ("#matches-table-content").empty ();
-	for (var key in matches) {
-		var pattern = matches[key];
-		var wordMatched = key;
+	for (let key in matches) {
+		let pattern = matches[key];
+		let wordMatched = key;
 		let tr;
 		tr = $ ('<tr/>');
 		tr.append ("<td>" + pattern + "</td>");
 		tr.append ("<td>" + wordMatched + "</td>");
 		$ ('#matches-table').append (tr);
+		tr = $ ('<tr/>');
+		tr.append ("<td colspan='3'>" + dictionaryWordApplied[key] + "</td>");
+		$ ('#matches-table').append (tr);
 	}
 }
 
 function frequencyAnalysis () {
-    let spaceOutString = longestWordText.replace(/\s/g, '');
-    spaceOutString = spaceOutString.toUpperCase();
+	let spaceOutString = textToDecrypt.replace (/\s/g, '');
+	spaceOutString = spaceOutString.toUpperCase ();
 	let textlength = spaceOutString.length;
 	let alphabetLength = alphabet.length;
-    let countCharacters = {};
-    for (let i = 0; i < textlength; i++) {
-        let char = spaceOutString.charAt (i);
-        if( char in countCharacters) {
-            countCharacters[char] += 1;
-        }
-        else
-        {
-            countCharacters[char] = 1;
-        }
-    }
-    
-    for (var key in countCharacters) {
-        var character = key;
-        var count = countCharacters[key];
-        var frequency = ( count / textlength)*100;
-	    countCharacters[key] = frequency;
-    }
+	let countCharacters = {};
+	for (let i = 0; i < textlength; i++) {
+		let char = spaceOutString.charAt (i);
+		if (char in countCharacters) {
+			countCharacters[char] += 1;
+		} else {
+			countCharacters[char] = 1;
+		}
+	}
 	
-	google.charts.load('current', {packages: ['corechart', 'bar']});
-	google.charts.setOnLoadCallback(drawBasic);
+	for (var key in countCharacters) {
+		var character = key;
+		var count = countCharacters[key];
+		var frequency = (count / textlength) * 100;
+		countCharacters[key] = frequency;
+	}
 	
-	function drawBasic() {
+	google.charts.load ('current', {packages: ['corechart', 'bar']});
+	google.charts.setOnLoadCallback (drawBasic);
+	
+	function drawBasic () {
 		
-		var data = new google.visualization.DataTable();
-		data.addColumn('string', 'Letter');
-		data.addColumn('number', 'Frequency');
+		var data = new google.visualization.DataTable ();
+		data.addColumn ('string', 'Letter');
+		data.addColumn ('number', 'Frequency');
 		
-		data.addRows([
+		data.addRows ([
 			['A', countCharacters['A']], ['B', countCharacters['B']], ['C', countCharacters['C']],
 			['D', countCharacters['D']], ['E', countCharacters['E']], ['F', countCharacters['F']],
 			['G', countCharacters['G']], ['H', countCharacters['H']], ['I', countCharacters['I']],
@@ -185,10 +189,47 @@ function frequencyAnalysis () {
 			}
 		};
 		
-		var chart = new google.visualization.ColumnChart(
-			document.getElementById('letters-frequency-chart'));
+		var chart = new google.visualization.ColumnChart (
+			document.getElementById ('letters-frequency-chart'));
 		
-		chart.draw(data, options);
+		chart.draw (data, options);
 	}
-	
+}
+
+function crackItBoy () {
+	let combinations = matches;
+	let decryptedText = textToDecrypt;
+	for (let key in combinations) {
+		let combination = combinations[key];
+		for (i = 0; i < combination.length; i++) {
+			let originalWord = words[i];
+			mapIt (originalWord, key);
+			for (i = 0; i < textToDecrypt.length; i++) {
+				decryptedText = substituteChar (decryptedText, i);
+			}
+		}
+		dictionaryWordApplied[key] = decryptedText;
+	}
+}
+
+function substituteChar (text, index) {
+	let finalText = text;
+	let encryptedTextChar = text.charAt (index);
+	let substitutionChar = mapping[encryptedTextChar];
+	if (substitutionChar === undefined) {
+		substitutionChar = mapping[encryptedTextChar.toUpperCase ()];
+		if (substitutionChar !== undefined)
+			substitutionChar = substitutionChar.toLowerCase ();
+	}
+	if (substitutionChar !== undefined)
+		finalText = text.substring (0, index) + substitutionChar + text.substring (index + 1);
+	return finalText;
+}
+
+function mapIt (encryptedWord, dictionaryWord) {
+	encryptedWord = encryptedWord.toUpperCase ();
+	dictionaryWord = dictionaryWord.toUpperCase ();
+	for (i = 0; i < encryptedWord.length; i++) {
+		mapping[encryptedWord.charAt (i)] = dictionaryWord.charAt (i);
+	}
 }
