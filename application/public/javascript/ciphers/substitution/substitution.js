@@ -1,5 +1,5 @@
 let textToDecrypt = null;
-let pattern = '';
+let patterns = [];
 let words = [];
 let matches = [];
 let dictionaryWordApplied = [];
@@ -41,7 +41,7 @@ $ ('#longest-word-ta').bind ('paste keydown', function (e) {
 
 
 function longestWord () {
-	let punctuationless = textToDecrypt.replace (/[.,\/#!$%\^&\*;?:{}=\-\—_`~()]/g, "");
+	let punctuationless = textToDecrypt.replace (/[.,\/#!$%\^&\*;?:{}=\-\—_`~()]/g, "   ");
 	let longestWordTextNoPunctuation = punctuationless.replace (/\s{2,}/g, " ");
 	let str = longestWordTextNoPunctuation.split (" ");
 	let longest = 0;
@@ -57,7 +57,7 @@ function longestWord () {
 			words.push (str);
 		}
 	});
-	getPattern ();
+	getPatterns ();
 	searchInDictionary ();
 	populateResults ();
 	crackItBoy ();
@@ -68,17 +68,17 @@ function longestWord () {
 
 function reset () {
 	textToDecrypt = null;
-	pattern = '';
+	patterns = [];
 	words = [];
 	matches = [];
 }
 
-function getPattern () {
+function getPatterns () {
 	for (let key in words) {
 		let lastCharacterUsedIndex = 0;
 		let word = words[key];
 		let reconstruct = '';
-		
+		let pattern = '';
 		for (let i = 0; i < word.length; i++) {
 			if (reconstruct.indexOf (word.charAt (i)) > -1) {
 				var characterPosition = reconstruct.indexOf (word.charAt (i));
@@ -90,19 +90,22 @@ function getPattern () {
 			}
 			reconstruct += word.charAt (i);
 		}
+		patterns.push(pattern);
 	}
 	
 }
 
 function searchInDictionary () {
-	for (var key in dictionary) {
-		var value = dictionary[key];
-		if (typeof value === 'object') {
-			searchInDictionary (value, pattern);
+	for (var patternKey in patterns) {
+		let pattern = patterns[patternKey];
+		let match = [];
+		for (var key in dictionary) {
+			var value = dictionary[key];
+			if (value === pattern) {
+				match.push(key);
+			}
 		}
-		if (value === pattern) {
-			matches[key] = value;
-		}
+		matches[pattern] = match;
 	}
 }
 
@@ -115,7 +118,7 @@ function populateResults () {
 		tr = $ ('<tr/>');
 		tr.append ("<td>" + word + "</td>");
 		tr.append ("<td>" + word.length + "</td>");
-		tr.append ("<td>" + pattern + "</td>");
+		tr.append ("<td>" + patterns[key] + "</td>");
 		$ ('#words-table').append (tr);
 	}
 }
@@ -126,13 +129,18 @@ function populateMatches () {
 		let pattern = matches[key];
 		let wordMatched = key;
 		let tr;
-		tr = $ ('<tr/>');
-		tr.append ("<td>" + pattern + "</td>");
-		tr.append ("<td>" + wordMatched + "</td>");
-		$ ('#matches-table').append (tr);
-		tr = $ ('<tr/>');
-		tr.append ("<td colspan='3'>" + dictionaryWordApplied[key] + "</td>");
-		$ ('#matches-table').append (tr);
+		let match = matches[key];
+		
+		for(let dictionaryMatch in match){
+			let decryptWord = match[dictionaryMatch];
+			let decryptedText = dictionaryWordApplied[decryptWord];
+			tr = $ ('<tr/>');
+			tr.addClass ('table-info');
+			tr.append ("<td>" + key + "</td>");
+			tr.append ("<td>" + decryptWord + "</td>");
+			tr.append ("<td>" + decryptedText + "</td>");
+			$ ('#matches-table').append (tr);
+		}
 	}
 }
 
@@ -198,17 +206,23 @@ function frequencyAnalysis () {
 
 function crackItBoy () {
 	let combinations = matches;
-	let decryptedText = textToDecrypt;
+	let decryptedText = '';
 	for (let key in combinations) {
 		let combination = combinations[key];
-		for (i = 0; i < combination.length; i++) {
-			let originalWord = words[i];
-			mapIt (originalWord, key);
-			for (i = 0; i < textToDecrypt.length; i++) {
-				decryptedText = substituteChar (decryptedText, i);
+		if(combination.length > 0) {
+			for(let combinationKey in combination) {
+				let decryptedText = textToDecrypt;
+				let encryptionKey = combination[combinationKey];
+				for (i = 0; i < encryptionKey.length; i++) {
+					let originalWord = words[i];
+					mapIt (originalWord, encryptionKey);
+					for (i = 0; i < textToDecrypt.length; i++) {
+						decryptedText = substituteChar (decryptedText, i);
+					}
+					dictionaryWordApplied[encryptionKey] = decryptedText;
+				}
 			}
 		}
-		dictionaryWordApplied[key] = decryptedText;
 	}
 }
 
