@@ -46,17 +46,29 @@ function longestWord () {
 	let str = longestWordTextNoPunctuation.split (" ");
 	let longest = 0;
 	let maxLength = 0;
-	str.forEach (function (str) {
-		if (longest < str.length) {
-			longest = str.length;
-			maxLength = longest;
+	let areYouChunked = isTextChunked(longestWordTextNoPunctuation);
+	if(areYouChunked === false) {
+		str.forEach (function (str) {
+			if (longest < str.length) {
+				longest = str.length;
+				maxLength = longest;
+			}
+		});
+		str.forEach (function (str) {
+			if (maxLength === str.length) {
+				words.push (str);
+			}
+		});
+	}
+	else
+	{
+		longest = longestPattern(punctuationless.replace (/\s/g, ""));
+		if(longest.length > 0 )
+		{
+			words.push (longest);
+			console.log('longestWord' , 'longest' , longest);
 		}
-	});
-	str.forEach (function (str) {
-		if (maxLength === str.length) {
-			words.push (str);
-		}
-	});
+	}
 	getPatterns ();
 	searchInDictionary ();
 	populateResults ();
@@ -108,7 +120,6 @@ function searchInDictionary () {
 		matches[pattern] = match;
 	}
 }
-
 
 function populateResults () {
 	$ ("#words-table-content").empty ();
@@ -240,10 +251,54 @@ function substituteChar (text, index) {
 	return finalText;
 }
 
+function isTextChunked(text) {
+	let explodedString = text.split(' ');
+	let arrayLength = explodedString.length;
+	let chunkSize = explodedString[0].length;
+	let areYouChunked = true;
+	for(i = 0; i < arrayLength -1; i++)
+	{
+		let chunk = explodedString[i];
+		let chunkLength = chunk.length;
+		if(chunkLength !== chunkSize)
+			areYouChunked = false;
+	}
+	return areYouChunked;
+}
+
 function mapIt (encryptedWord, dictionaryWord) {
 	encryptedWord = encryptedWord.toUpperCase ();
 	dictionaryWord = dictionaryWord.toUpperCase ();
 	for (i = 0; i < encryptedWord.length; i++) {
 		mapping[encryptedWord.charAt (i)] = dictionaryWord.charAt (i);
 	}
+}
+
+function longestPattern(text)
+{
+	text = text.split(' ').join();
+	let textLength = text.length;
+	let longestPattern = '';
+	for(i = 0; i < textLength; i++)
+	{
+		for(j = i+1; j < textLength -1; j++)
+		{
+			let x = largestCommonPrefix(text.substr(i), text.substr(j))
+			if(x.length > longestPattern.length){
+				longestPattern = x;
+			}
+		}
+	}
+	return longestPattern;
+}
+
+function largestCommonPrefix (str, text) {
+	let delta = (str.length < text.length) ? str.length : text.length;
+	for(k = 0; k < delta; k++)
+	{
+		if(str[k] !== text[k]){
+			return str.substr(0, k);
+		}
+	}
+	return str.substr(0, delta);
 }
