@@ -10,16 +10,18 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="longest-word-ta" class="form-label">Text to check</label>
-                            <textarea class="form-control textarea pb-2" id="longest-word-ta"
-                                      aria-describedby="longest-ta-Help" rows="10"></textarea>
-                            <div id="longest-ta-Help" class="form-text">Copy the text to check here</div>
+                            <label for="text-cipher" class="form-label">Text to check</label>
+                            <textarea class="form-control textarea pb-2" id="text-cipher"
+                                      aria-describedby="text-cipher-Help" rows="10"></textarea>
+                            <div id="text-cipher-Help" class="form-text">Copy the text to check here</div>
                         </div>
-                        <button type="button" id="longest-word-ta-btn" class="btn btn-primary">Check</button>
+                        <button type="button" id="text-cipher-btn" class="btn btn-primary">Check</button>
                     </div>
                 </div>
             </div>
             <div class="col-md-8">
+                {% include 'partials/letterFrequency.html.twig' %}
+                <!--
                 <div class="card text-dark bg-light mb-3 border-dark">
                     <div class="card-header">
                         Letters Frequency
@@ -31,6 +33,7 @@
                         </div>
                     </div>
                 </div>
+                -->
                 <div class="card text-dark bg-light mb-3 border-dark">
                     <div class="card-header">
                         Results

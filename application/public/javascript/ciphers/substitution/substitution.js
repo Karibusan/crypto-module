@@ -4,43 +4,35 @@ let words = [];
 let matches = [];
 let dictionaryWordApplied = [];
 
-
-let alphabet = [
-	'A', 'B', 'C', 'D', 'E', 'F',
-	'G', 'H', 'I', 'J', 'K', 'L',
-	'M', 'N', 'O', 'P', 'Q', 'R',
-	'S', 'T', 'U', 'V', 'W', 'X',
-	'Y', 'Z'];
-
 let mapping = {};
 
 $ (function () {
-	$ ('#longest-word-ta-btn').prop ('disabled', true);
+	$ ('#text-cipher-btn').prop ('disabled', true);
 });
 
-$ ('#longest-word-ta-btn').on ('click', function () {
-	textToDecrypt = $ ('#longest-word-ta').val ();
-	longestWord ();
+$ ('#text-cipher-btn').on ('click', function () {
+	textToDecrypt = $ ('#text-cipher').val ();
+	checkCipherText ();
 });
 
-$ ('#longest-word-ta').bind ('paste keydown', function (e) {
+$ ('#text-cipher').bind ('paste keydown', function (e) {
 	reset ();
 	let eventType = e.type;
 	if (eventType === 'paste') {
 		textToDecrypt = e.originalEvent.clipboardData.getData ('text');
 	} else {
-		textToDecrypt = $ ('#longest-word-ta').val ();
+		textToDecrypt = $ ('#text-cipher').val ();
 	}
 	if (textToDecrypt.length > 1) {
-		$ ('#longest-word-ta-btn').prop ('disabled', false);
+		$ ('#text-cipher-btn').prop ('disabled', false);
 		
 	} else {
-		$ ('#longest-word-ta-btn').prop ('disabled', true);
+		$ ('#text-cipher-btn').prop ('disabled', true);
 	}
 });
 
 
-function longestWord () {
+function checkCipherText () {
 	let punctuationless = textToDecrypt.replace (/[.,\/#!$%\^&\*;?:{}=\-\—_`~()]/g, "   ");
 	let longestWordTextNoPunctuation = punctuationless.replace (/\s{2,}/g, " ");
 	let str = longestWordTextNoPunctuation.split (" ");
@@ -74,7 +66,6 @@ function longestWord () {
 	populateResults ();
 	crackItBoy ();
 	populateMatches ();
-	frequencyAnalysis ();
 	reset ();
 }
 
@@ -152,66 +143,6 @@ function populateMatches () {
 			tr.append ("<td>" + decryptedText + "</td>");
 			$ ('#matches-table').append (tr);
 		}
-	}
-}
-
-function frequencyAnalysis () {
-	let spaceOutString = textToDecrypt.replace (/\s/g, '');
-	spaceOutString = spaceOutString.toUpperCase ();
-	let textlength = spaceOutString.length;
-	let alphabetLength = alphabet.length;
-	let countCharacters = {};
-	for (let i = 0; i < textlength; i++) {
-		let char = spaceOutString.charAt (i);
-		if (char in countCharacters) {
-			countCharacters[char] += 1;
-		} else {
-			countCharacters[char] = 1;
-		}
-	}
-	
-	for (var key in countCharacters) {
-		var character = key;
-		var count = countCharacters[key];
-		var frequency = (count / textlength) * 100;
-		countCharacters[key] = frequency;
-	}
-	
-	google.charts.load ('current', {packages: ['corechart', 'bar']});
-	google.charts.setOnLoadCallback (drawBasic);
-	
-	function drawBasic () {
-		
-		var data = new google.visualization.DataTable ();
-		data.addColumn ('string', 'Letter');
-		data.addColumn ('number', 'Frequency');
-		
-		data.addRows ([
-			['A', countCharacters['A']], ['B', countCharacters['B']], ['C', countCharacters['C']],
-			['D', countCharacters['D']], ['E', countCharacters['E']], ['F', countCharacters['F']],
-			['G', countCharacters['G']], ['H', countCharacters['H']], ['I', countCharacters['I']],
-			['J', countCharacters['J']], ['K', countCharacters['K']], ['L', countCharacters['L']],
-			['M', countCharacters['M']], ['N', countCharacters['N']], ['O', countCharacters['O']],
-			['P', countCharacters['P']], ['Q', countCharacters['Q']], ['R', countCharacters['R']],
-			['S', countCharacters['S']], ['T', countCharacters['T']], ['U', countCharacters['U']],
-			['V', countCharacters['V']], ['W', countCharacters['W']], ['X', countCharacters['X']],
-			['Y', countCharacters['Y']], ['Z', countCharacters['Z']],
-		]);
-		
-		var options = {
-			title: 'Letter Frequency Analysis',
-			hAxis: {
-				title: 'Letter',
-			},
-			vAxis: {
-				title: 'Frequency'
-			}
-		};
-		
-		var chart = new google.visualization.ColumnChart (
-			document.getElementById ('letters-frequency-chart'));
-		
-		chart.draw (data, options);
 	}
 }
 
