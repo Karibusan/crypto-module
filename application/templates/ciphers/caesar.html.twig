@@ -1,0 +1,45 @@
+{% extends 'layout.html.twig' %}
+{% block page_contents %}
+    <div class="container-fluid">
+        <div class="row pt-5 alert alert-warning">
+            <div class="title"><h3 class="h3">Caesar</h3></div>
+            <div class="col-md-4">
+                <div class="card text-dark bg-light mb-3 border-dark">
+                    <div class="card-header">Cipher Text</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <textarea class="form-control textarea pb-2" id="text-cipher"
+                                      aria-describedby="text-cipher-Help" rows="10"></textarea>
+                            <div id="text-cipher-Help" class="form-text">Copy the text to check here</div>
+                        </div>
+                        <button type="button" id="text-cipher-btn" class="btn btn-primary">Check</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    {% include 'partials/letterFrequency.html.twig' %}
+                </div>
+                <div class="row">
+                    <div class="card text-dark bg-light mb-3 border-dark">
+                        <div class="card-header">Key</div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <input type="number" class="number" id="caesar-key"/>
+                            </div>
+                            <button type="button" id="caesar-key-btn" class="btn btn-primary">Check</button>
+                        </div>
+                    </div>
+                    <div class="card text-dark bg-light mb-3 border-dark">
+                        <div class="card-header">Result</div>
+                        <div class="card-body">
+                            <textarea id="caesar-result" class="textarea form-control readonly
+                            disabled" rows="10" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ asset('javascript/ciphers/caesar/caesar.js') }}"></script>
+{% endblock %}
