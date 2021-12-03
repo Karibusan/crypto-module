@@ -38,11 +38,9 @@ function frequencyAnalysis () {
 	google.charts.setOnLoadCallback (drawBasic);
 	
 	function drawBasic () {
-		
 		var data = new google.visualization.DataTable ();
 		data.addColumn ('string', 'Letter');
 		data.addColumn ('number', 'Frequency');
-		
 		data.addRows ([
 			['A', countCharacters['A']], ['B', countCharacters['B']], ['C', countCharacters['C']],
 			['D', countCharacters['D']], ['E', countCharacters['E']], ['F', countCharacters['F']],
@@ -54,7 +52,6 @@ function frequencyAnalysis () {
 			['V', countCharacters['V']], ['W', countCharacters['W']], ['X', countCharacters['X']],
 			['Y', countCharacters['Y']], ['Z', countCharacters['Z']],
 		]);
-		
 		let options = {
 			title: 'Letter Frequency Analysis',
 			hAxis: {
@@ -64,10 +61,28 @@ function frequencyAnalysis () {
 				title: 'Frequency'
 			}
 		};
-		
 		let chart = new google.visualization.ColumnChart (
 			document.getElementById ('letters-frequency-chart'));
-		
 		chart.draw (data, options);
+		
+		linkToCaesar (countCharacters)
+	}
+	
+	function linkToCaesar (countCharacters) {
+		if ($ ("#caesar-key").length) {
+			let highestChar = '';
+			let tmpCount = -1;
+			for (let key in countCharacters) {
+				if (countCharacters[key] > tmpCount) {
+					tmpCount = countCharacters[key];
+					highestChar = key;
+				}
+			}
+			let ECharCode = "E".charCodeAt (0);
+			let highestCharCode = highestChar.charCodeAt (0);
+			let shift = highestCharCode - ECharCode;
+			$ ("#caesar-key").val (-shift);
+			$ ("#caesar-key-btn").click ();
+		}
 	}
 }

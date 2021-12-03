@@ -58,7 +58,6 @@ function checkCipherText () {
 		if(longest.length > 0 )
 		{
 			words.push (longest);
-			console.log('longestWord' , 'longest' , longest);
 		}
 	}
 	getPatterns ();
