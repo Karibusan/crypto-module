@@ -1,9 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <div class="container-fluid">
-        <h1 class="h1 text-center">Cryptography toolbox</h1>
-        {% include ('partials/top-menu.html.twig') %}
-        {% block page_contents %}{% endblock %}
+    <!-- [ navigation menu ] start -->
+    {% include ('partials/top-menu.html.twig') %}
+    <!-- [ navigation menu ] end -->
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    {% block page_contents %}{% endblock %}
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
+

@@ -6,31 +6,12 @@ let dictionaryWordApplied = [];
 
 let mapping = {};
 
-$ (function () {
-	$ ('#text-cipher-btn').prop ('disabled', true);
-});
+
 
 $ ('#text-cipher-btn').on ('click', function () {
 	textToDecrypt = $ ('#text-cipher').val ();
 	checkCipherText ();
 });
-
-$ ('#text-cipher').bind ('paste keydown', function (e) {
-	reset ();
-	let eventType = e.type;
-	if (eventType === 'paste') {
-		textToDecrypt = e.originalEvent.clipboardData.getData ('text');
-	} else {
-		textToDecrypt = $ ('#text-cipher').val ();
-	}
-	if (textToDecrypt.length > 1) {
-		$ ('#text-cipher-btn').prop ('disabled', false);
-		
-	} else {
-		$ ('#text-cipher-btn').prop ('disabled', true);
-	}
-});
-
 
 function checkCipherText () {
 	let punctuationless = textToDecrypt.replace (/[.,\/#!$%\^&\*;?:{}=\-\—_`~()]/g, "   ");
@@ -66,13 +47,6 @@ function checkCipherText () {
 	crackItBoy ();
 	populateMatches ();
 	reset ();
-}
-
-function reset () {
-	textToDecrypt = null;
-	patterns = [];
-	words = [];
-	matches = [];
 }
 
 function getPatterns () {
