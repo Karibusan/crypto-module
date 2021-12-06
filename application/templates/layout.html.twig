@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1 class="h1 text-center">Cryptography toolbox</h1>
+        {% include ('partials/top-menu.html.twig') %}
+        {% block page_contents %}{% endblock %}
+    </div>
+{% endblock %}

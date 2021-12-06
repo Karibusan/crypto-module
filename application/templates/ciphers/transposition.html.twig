@@ -1,0 +1,27 @@
+{% extends 'layout.html.twig' %}
+{% block page_contents %}
+    <div class="container-fluid">
+        <div class="row pt-5 alert alert-warning">
+            <div class="title"><h3 class="h3">Transposition</h3></div>
+            <div class="col-md-4">
+                <div class="card text-dark bg-light mb-3 border-dark">
+                    <div class="card-header">
+                        Cipher Text
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <textarea class="form-control textarea pb-2" id="text-cipher"
+                                      aria-describedby="text-cipher-Help" rows="10"></textarea>
+                            <div id="text-cipher-Help" class="form-text">Copy the text to check here</div>
+                        </div>
+                        <button type="button" id="text-cipher-btn" class="btn btn-primary">Check</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                {% include 'partials/letterFrequency.html.twig' %}
+            </div>
+        </div>
+    </div>
+    <script src="{{ asset('javascript/ciphers/transposition/simple.js') }}"></script>
+{% endblock %}
