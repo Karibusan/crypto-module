@@ -17,14 +17,14 @@
         <div class="page-wrapper">
             <div class="row">
                 <!-- [ Main Content ] start -->
-                <div class="col-3">
+                <div class="col-12">
                     <div class="card rounded shadow bg-white border border-dark">
                         <div class="card-header">Cipher Text</div>
                         <div class="card-body">
                             <div class="card-text">
-                            <textarea class="form-control textarea pb-2" id="text-cipher"
+                            <textarea class="form-control textarea" id="text-cipher"
+                                      placeholder="Text to decipher"
                                       aria-describedby="text-cipher-Help" rows="10"></textarea>
-                                <div id="text-cipher-Help" class="form-text">Copy the text to check here</div>
                             </div>
                             <div class="card-footer">
                                 <button type="button" id="text-cipher-btn" class="btn btn-glow-primary btn-primary">
@@ -34,27 +34,32 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-9">
+            </div>
                     <div class="row">
-                        <div class="col-9">
+                        <div class="col-12">
                             {% include 'partials/letterFrequency.html.twig' %}
-                        </div>
-                        <div class="col-3">
-                            <div class="card rounded shadow bg-white border border-dark">
-                                <div class="card-header">Key</div>
-                                <div class="card-body">
-                                    <div class="card-text">
-                                        <input type="number" class="number" id="caesar-key"/>
-                                    </div>
-                                    <div class="card-footer"><button type="button" id="caesar-key-btn" class="btn btn-glow-primary btn-primary">Check</button></div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="card rounded shadow bg-white border border-dark">
-                                <div class="card-header">Result</div>
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-3">Result</div>
+                                        <div class="col-5"></div>
+                                        <div class="col-4 text-right">
+                                            <div class="input-group">
+                                            <input type="number" class="number form-control"
+                                                   min="-25"
+                                                   max="25"
+                                                   maxlength="4"
+                                                   placeholder="Key"
+                                                   id="caesar-key">
+                                            <div class="input-group-append">
+                                                <button type="button" id="caesar-key-btn" class="btn btn-glow-primary btn-primary">Check</button>
+                                            </div>
+                                            </div>
+                                        </div>
                                 <div class="card-body">
                                     <div class="card-text">
                             <textarea id="caesar-result" class="textarea form-control readonly
