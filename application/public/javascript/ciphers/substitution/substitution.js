@@ -112,7 +112,7 @@ function populateMatches () {
 			tr = $ ('<tr/>');
 			tr.append ("<td>" + key + "</td>");
 			tr.append ("<td>" + decryptWord + "</td>");
-			tr.append ("<td class='substitution-results'>" + decryptedText + "</td>");
+			tr.append ("<td class='td-word-wrap'>" + decryptedText + "</td>");
 			$ ('#matches-table').append (tr);
 		}
 	}
