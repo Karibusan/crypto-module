@@ -5,6 +5,8 @@ let alphabet = [
 	'S', 'T', 'U', 'V', 'W', 'X',
 	'Y', 'Z'];
 
+$('#letter-frequency-block').hide();
+
 $ ('#text-cipher-btn').on ('click', function () {
 	frequencyAnalysis ();
 });
@@ -61,10 +63,10 @@ function frequencyAnalysis () {
 				title: 'Frequency'
 			}
 		};
+		$('#letter-frequency-block').show();
 		let chart = new google.visualization.ColumnChart (
 			document.getElementById ('letters-frequency-chart'));
 		chart.draw (data, options);
-		
 		linkToCaesar (countCharacters)
 	}
 	
