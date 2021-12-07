@@ -1,18 +1,54 @@
 {%  block top_menu %}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link {{ home_active }}" aria-current="page" href="/">Home</a>
-                    <a class="nav-link {{ caesar_active }}" href="/ciphers/caesar">Caesar Cipher</a>
-                    <a class="nav-link {{ substitution_active }}" href="/ciphers/substitution">Substitution Cipher</a>
-                    <a class="nav-link {{ transposition_active }}" href="/ciphers/transposition">Transposition Cipher
-                        (TBD)</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+<!-- [ navigation menu ] start -->
+<nav class="pcoded-navbar theme-horizontal">
+	<div class="navbar-wrapper">
+		<div class="navbar-content sidenav-horizontal" id="layout-sidenav">
+			<ul class="nav pcoded-inner-navbar sidenav-inner">
+				<li class="nav-item pcoded-menu-caption">
+					<label>Navigation</label>
+				</li>
+				<li data-username="dashboard Crypto Project home" class="nav-item {{ home_active }}">
+					<a href="/" class="nav-link">
+						<span class="pcoded-micon"><i class="feather icon-home"></i></span>
+						<span class="pcoded-mtext">Home</span></a>
+				</li>
+				<li data-username="dashboard Crypto Project Caesar" class="nav-item {{ caesar_active }}">
+					<a href="/ciphers/caesar" class="nav-link">
+						<span class="pcoded-micon"><i class="feather icon-award"></i></span>
+						<span class="pcoded-mtext">Caesar Cipher</span></a>
+				</li>
+				<li data-username="dashboard Crypto Project Substitution" class="nav-item {{ substitution_active }}">
+					<a href="/ciphers/substitution" class="nav-link">
+						<span class="pcoded-micon"><i class="feather icon-refresh-ccw"></i></span>
+						<span class="pcoded-mtext">Substitution Cipher</span></a>
+				</li>
+				<li data-username="dashboard Crypto Project Transposition" class="nav-item {{ transposition_active }}">
+					<a href="/ciphers/transposition" class="nav-link">
+						<span class="pcoded-micon"><i class="feather icon-shuffle"></i></span>
+						<span class="pcoded-mtext">Transposition Cipher (TBD)</span></a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+<!-- [ navigation menu ] end -->
+	<!-- [ Header ] start -->
+	<header class="navbar pcoded-header navbar-expand-lg navbar-light header-purple brand-primary">
+		<div class="m-header">
+			<a class="mobile-menu" id="mobile-collapse1" href="#!"><span></span></a>
+			<a href="index.html" class="b-brand">
+				<div class="b-bg">
+					<img class="img-fluid horizontal-dasktop" src="{{ asset("assets/images/favicon/favicon-32x32.png")	}}" alt="Cryptography
+				Uni" />
+				</div>
+				<span class="b-title">Cryptography</span>
+
+			</a>
+		</div>
+		<a class="mobile-menu" id="mobile-header" href="#!">
+			<i class="feather icon-more-horizontal"></i>
+		</a>
+		<div class="collapse navbar-collapse">
+		</div>
+	</header>
 {% endblock %}
