@@ -110,10 +110,9 @@ function populateMatches () {
 			let decryptWord = match[dictionaryMatch];
 			let decryptedText = dictionaryWordApplied[decryptWord];
 			tr = $ ('<tr/>');
-			tr.addClass ('table-info');
 			tr.append ("<td>" + key + "</td>");
 			tr.append ("<td>" + decryptWord + "</td>");
-			tr.append ("<td>" + decryptedText + "</td>");
+			tr.append ("<td class='substitution-results'>" + decryptedText + "</td>");
 			$ ('#matches-table').append (tr);
 		}
 	}
