@@ -9,9 +9,9 @@ function getSquareRootOrClose()
 	let text = $ ('#text-cipher').val ();
 	let textlength = text.length;
 	//let squareRoot = Math.ceil(Math.sqrt(textlength));
-	let squareRoot = Math.ceil(textlength / 3);
-	const max_size = squareRoot;
-	const min_size = Math.floor(squareRoot / 3);
+	//let squareRoot = Math.ceil(textlength / 3);
+	const max_size = Math.ceil(textlength / 2);
+	const min_size = 2;
 	
 	console.log('getSquareRootOrClose' , 'max_size' , max_size);
 	console.log('getSquareRootOrClose' , 'min_size' , min_size);
@@ -60,6 +60,11 @@ function transposeIt(pieces)
 
 function displayArray(columns, rows)
 {
+	let div0 = document.createElement("div");
+	div0.classList.add('row');
+	let div1 = document.createElement("div");
+	div1.id = 'transposition-'+rows[0].length;
+	div1.classList.add('col-12');
 	let table = document.createElement('table');
 	table.classList.add('display');
 	table.classList.add('table');
@@ -81,5 +86,7 @@ function displayArray(columns, rows)
 				table.appendChild(tbody);
 		
 	}
-	document.getElementById('matches-results-ta').appendChild(table);
+	div1.appendChild(table);
+	div0.appendChild(div1);
+	document.getElementById('matches-results-ta').appendChild(div0);
 }
