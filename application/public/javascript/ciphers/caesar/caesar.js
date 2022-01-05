@@ -25,7 +25,7 @@ function crackItJulius () {
 					newCharCode = 122 - testTemp;
 				} else {
 					newCharCode = charCode + key;
-					console.log ('crackItJulius', absoluteKey, charCode, newCharCode);
+					//console.log ('crackItJulius', absoluteKey, charCode, newCharCode);
 				}
 				let newChar = String.fromCharCode (newCharCode);
 				decipheredText = decipheredText.substring (0, i) + newChar + decipheredText.substring (i + 1);

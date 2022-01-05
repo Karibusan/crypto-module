@@ -42,26 +42,35 @@ function frequencyAnalysis () {
 	function drawBasic () {
 		var data = new google.visualization.DataTable ();
 		data.addColumn ('string', 'Letter');
-		data.addColumn ('number', 'Frequency');
+		data.addColumn ('number', 'Ciphertext Letter Frequency');
+		data.addColumn ('number', 'English Letter Frequency');
 		data.addRows ([
-			['A', countCharacters['A']], ['B', countCharacters['B']], ['C', countCharacters['C']],
-			['D', countCharacters['D']], ['E', countCharacters['E']], ['F', countCharacters['F']],
-			['G', countCharacters['G']], ['H', countCharacters['H']], ['I', countCharacters['I']],
-			['J', countCharacters['J']], ['K', countCharacters['K']], ['L', countCharacters['L']],
-			['M', countCharacters['M']], ['N', countCharacters['N']], ['O', countCharacters['O']],
-			['P', countCharacters['P']], ['Q', countCharacters['Q']], ['R', countCharacters['R']],
-			['S', countCharacters['S']], ['T', countCharacters['T']], ['U', countCharacters['U']],
-			['V', countCharacters['V']], ['W', countCharacters['W']], ['X', countCharacters['X']],
-			['Y', countCharacters['Y']], ['Z', countCharacters['Z']],
+			['A', countCharacters['A'], 8.4966], ['B', countCharacters['B'], 2.0720], ['C', countCharacters['C'], 4.5388],
+			['D', countCharacters['D'], 3.3844], ['E', countCharacters['E'], 11.1607], ['F', countCharacters['F'], 1.8121],
+			['G', countCharacters['G'], 2.4705], ['H', countCharacters['H'], 3.0034], ['I', countCharacters['I'], 7.5448],
+			['J', countCharacters['J'], 0.1965], ['K', countCharacters['K'], 1.1016], ['L', countCharacters['L'], 5.4893],
+			['M', countCharacters['M'], 3.0129], ['N', countCharacters['N'], 6.6544], ['O', countCharacters['O'], 7.1635],
+			['P', countCharacters['P'], 3.1671], ['Q', countCharacters['Q'], 0.1962], ['R', countCharacters['R'], 7.5809],
+			['S', countCharacters['S'], 5.7351], ['T', countCharacters['T'], 6.9509], ['U', countCharacters['U'], 3.6308],
+			['V', countCharacters['V'], 1.0074], ['W', countCharacters['W'], 1.2899], ['X', countCharacters['X'], 0.2902],
+			['Y', countCharacters['Y'], 1.7779], ['Z', countCharacters['Z'], 0.2722],
 		]);
 		let options = {
 			title: 'Letter Frequency Analysis',
+			width: "auto",
+			height: "400",
+			//bar: {groupWidth: "95%"},
+			legend: {position: "top"},
 			hAxis: {
 				title: 'Letter',
 			},
 			vAxis: {
 				title: 'Frequency'
-			}
+			},
+			animation: {
+				startup: true,
+				easing: 'inAndOut'
+			},
 		};
 		$('#letter-frequency-block').show();
 		let chart = new google.visualization.ColumnChart (
